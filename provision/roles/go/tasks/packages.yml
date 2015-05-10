@@ -1,0 +1,21 @@
+---
+- name: Download 1.4 version of Go-Lang
+  get_url:
+    url: "https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz"
+    dest: /root/go1.4.2.linux-amd64.tar.gz
+    force: no
+  register: get_go
+
+- name: Unpack archive
+  unarchive:
+    src: /root/go1.4.2.linux-amd64.tar.gz 
+    dest: /usr/local
+    copy: no
+  when: get_go
+
+- name: Add PATH
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    line: "PATH=$PATH:/usr/local/go/bin"
+

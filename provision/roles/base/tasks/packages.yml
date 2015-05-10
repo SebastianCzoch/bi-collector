@@ -1,0 +1,22 @@
+---
+- name: Add dotdeb key for repository
+  apt_key:
+    url: http://www.dotdeb.org/dotdeb.gpg
+    state: present
+
+- name: Add dotdep repository
+  apt_repository:
+    repo: deb http://packages.dotdeb.org wheezy all
+    update_cache: yes
+    state: present
+
+- name: Install basics packages
+  apt: 
+    name: "{{ item }}" 
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+  - vim
+  - git
+  - htop
+  - bzr
